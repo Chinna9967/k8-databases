@@ -1,34 +1,35 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb
+  name: redis
   namespace: roboshop
   labels:
-    app: mongodb
-    tier: db
+    app: redis
+    tier: db 
     project: roboshop
 spec:
   selector:
     matchLabels:
-      app: mongodb
-      tier: db
+      app: redis
+      tier: db 
       project: roboshop
-  serviceName: "mongodb"
+      # app: nginx-stateful # has to match .spec.template.metadata.labels
+  serviceName: "redis"
   replicas: 1
   template:
     metadata:
       labels:
-        app: mongodb
-        tier: db
+        app: redis
+        tier: db 
         project: roboshop
     spec:
       containers:
-      - name: mongodb
-        image: "joindevops/mongodb:{{ .Values.statefulset.imageVersion }}"
+      - name: redis
+        image: redis
         volumeMounts:
-        - name: mongodb
-          mountPath: /data/db
+        - name: redis
+          mountPath: /data
       volumes:
-      - name: mongodb
+      - name: redis
         persistentVolumeClaim: # this is the PVC
-          claimName: ebs-dynamic-pvc
+          claimName: ebs-redis-pvc
