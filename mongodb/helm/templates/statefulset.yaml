@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: chinna9967/mongodb:1.0.0
+        image: "chinna9967/mongodb:{{ .Values.statefulset.imageVersion }} "
         volumeMounts:
         - name: mongodb
           mountPath: /data/db
